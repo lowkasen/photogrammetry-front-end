@@ -8,7 +8,7 @@ const images: NextPage = () => {
     <div>
       <Homebar/>
       <h1>Upload images</h1>
-      <form action="/">
+      <form action="/upload/images_test_post" method="post">
         <input type="file" id="myFile" name="filename" multiple></input>
         <input type="submit"></input>
       </form>
