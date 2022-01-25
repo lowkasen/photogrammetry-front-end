@@ -3,8 +3,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Homebar } from '../../components/homebar'
 
-//hi
-
 const images_test_post: NextPage = () => {
   return (
     <div>
