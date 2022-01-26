@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-//import fetch from 'node-fetch'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Homebar } from '../../components/homebar'
 import { Messagebox } from '../../components/Messagebox'
@@ -28,7 +27,7 @@ const images: NextPage = () => {
 
       for (let i = 0; i < fileArray.length; i++) {
         form.push(new FormData());
-        form[i].append("photo", fileArray[i]);
+        form[i].append("item", fileArray[i]);
         form[i].append("uuid", UUID);
         form[i].append("filename", fileNames[i]);
       }
@@ -36,7 +35,7 @@ const images: NextPage = () => {
       setMessage("Uploading");
 
       for (let i=0; i < form.length; i++) {
-        promise.push(fetch("/api/uploadimages", {method: 'POST', body: form[i]}));
+        promise.push(fetch("/api/uploaditem", {method: 'POST', body: form[i]}));
       }
 
       Promise.all(promise).then((response) => {
