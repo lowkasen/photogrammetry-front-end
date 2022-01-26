@@ -15,7 +15,8 @@ const data: Array<any> = []
 
 const images: NextPage = () => {
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("Choose files to upload");
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,10 +62,17 @@ const images: NextPage = () => {
 
   // Function that runs when files are changed in the form
   const fileChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
+    
+    if (!event.target.files) {
+      setSubmitButtonDisabled(true);
+      return
+    }
 
     const numberOfFiles = event.target.files.length;
-    if (numberOfFiles > 50) return;
+    if (numberOfFiles > 50 || numberOfFiles < 1) {
+      setSubmitButtonDisabled(true);
+      return
+    }
 
     for (let i = 0; i < numberOfFiles; i++) {
       fileNames.push(event.target.files[i].name);
@@ -72,11 +80,13 @@ const images: NextPage = () => {
       fileArray.push(event.target.files[i]);
     }
 
-    if (!fileTypes.every(v => v === "image/jpeg" || v === "image/png")) {
+    if (!fileTypes.every(v => v === "image/jpeg" || v === "image/png" || v === "image/jpg")) {
       // case if not all the files selected are images
+      setSubmitButtonDisabled(true);
       setMessage("Filetype: Only images allowed");
     } else {
       // case if all files are images
+      setSubmitButtonDisabled(false);
       setMessage("Ready to submit");
     }
   }
@@ -88,7 +98,7 @@ const images: NextPage = () => {
       {/* <form action="https://httpbin.org/post" method="POST" encType="multipart/form-data" id ="theForm"> */}
       <form onSubmit={fileSubmitHandler}>
         <input type="file" id="myFile" name="filename" onChange={fileChangeHandler} multiple></input>
-        <input type="submit"></input>
+        <input type="submit" disabled={submitButtonDisabled}></input>
       </form>
       <hr></hr>
       <Messagebox message={message} />
