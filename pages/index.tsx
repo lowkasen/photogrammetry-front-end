@@ -15,8 +15,13 @@ const Home: NextPage = () => {
       <h2>Models</h2>
       <h2>Viewer</h2>
       <h2>Create your own model</h2>
-      <button onClick={() => router.push('/upload/images')}>Upload images</button>
-      <button onClick={() => router.push('/upload/video')}>Upload video</button>
+      <div>
+        <button onClick={() => router.push('/upload/images')}>Upload images</button>
+      </div>
+      <br></br>
+      <div>
+        <button onClick={() => router.push('/upload/video')}>Upload video</button>
+      </div>
     </div>
   )
 }
