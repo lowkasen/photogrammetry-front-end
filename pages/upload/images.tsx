@@ -43,6 +43,7 @@ const Images: NextPage = () => {
       let isOK = true;
       for (let i=0; i < form.length; i++) {
         data.push(response[i]);
+        console.log(response[0])
         if (response[i].ok !== true) {
           isOK = false;
         }
