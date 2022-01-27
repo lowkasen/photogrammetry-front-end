@@ -12,7 +12,7 @@ const form: Array<FormData> = []
 const promise: Array<Promise<any>> = []
 const data: Array<any> = []
 
-const images: NextPage = () => {
+const Images: NextPage = () => {
 
   const [message, setMessage] = useState("Choose files to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -105,4 +105,4 @@ const images: NextPage = () => {
   )
 }
 
-export default images
+export default Images

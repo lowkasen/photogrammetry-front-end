@@ -12,7 +12,7 @@ const form: Array<FormData> = []
 const promise: Array<Promise<any>> = []
 const data: Array<any> = []
 
-const video: NextPage = () => {
+const Video: NextPage = () => {
 
   const [message, setMessage] = useState("Choose video to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -103,4 +103,4 @@ const video: NextPage = () => {
   )
 }
 
-export default video
+export default Video
