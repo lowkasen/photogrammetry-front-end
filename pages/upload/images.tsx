@@ -38,19 +38,21 @@ const Images: NextPage = () => {
         promise.push(fetch("/api/uploaditem", {method: 'POST', body: form[i]}));
       }
 
-      Promise.all(promise).then((response) => {
-        for (let i=0; i < form.length; i++) {
-          data.push(response[i]);
+      const response = await Promise.all(promise);
+      
+      let isOK = true;
+      for (let i=0; i < form.length; i++) {
+        data.push(response[i]);
+        if (response[i].ok !== true) {
+          isOK = false;
         }
-      })
-
-      // const response = await fetch("/api/uploadimages", {
-      //   method: 'POST',
-      //   body: form[0]
-      // });
-      // const data = await response.json();
-
-      setMessage("Upload successful, uuid: " + UUID);
+      }
+      
+      if (isOK === true) {
+        setMessage("Upload successful, uuid: " + UUID);
+      } else {
+        throw new Error("uploaditem API return not OK.")
+      }
 
     } catch (err) {
       console.error(err);
