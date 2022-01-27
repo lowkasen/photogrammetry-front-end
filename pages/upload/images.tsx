@@ -8,9 +8,9 @@ import { Messagebox } from "../../components/Messagebox";
 var fileTypes: Array<string> = [];
 var fileArray: Array<any> = [];
 var fileNames: Array<string> = [];
-const form: Array<FormData> = [];
-const promise: Array<Promise<any>> = [];
-const data: Array<any> = [];
+var form: Array<FormData> = [];
+var promise: Array<Promise<any>> = [];
+var data: Array<any> = [];
 
 const Images: NextPage = () => {
   const [message, setMessage] = useState("Choose files to upload");
@@ -19,6 +19,10 @@ const Images: NextPage = () => {
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("Preparing upload");
+
+    form = [];
+    promise = [];
+    data = [];
 
     try {
       const uuid: { [key: string]: any } = await (

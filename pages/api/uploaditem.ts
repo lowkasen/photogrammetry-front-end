@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { S3Client, PutObjectCommand, QuoteFields } from "@aws-sdk/client-s3";
 import { readFile } from "fs/promises";
-import formidable, { Fields, File, Files } from "formidable";
+const formidable = require("formidable-serverless");
+import { Fields, File, Files } from "formidable";
 
 export const config = {
   api: {
@@ -19,7 +20,7 @@ export default async function handler(
 
     const promiseForm = new Promise<{ fields: Fields; files: Files }>(
       (resolve, reject) => {
-        form.parse(req, (err, fields, files) => {
+        form.parse(req, (err: any, fields: Fields, files: Files) => {
           if (err) reject(err);
           resolve({ fields, files });
         });
@@ -27,9 +28,14 @@ export default async function handler(
     );
 
     const test = await promiseForm;
-    const myFile = test.files.item as File;
+    const myFile = test.files.item as File & { path: string };
 
-    const item = await readFile(myFile.filepath);
+    console.log(myFile);
+
+    const item = await readFile(myFile.path);
+
+    console.log("is it here?");
+
     const REGION = "ap-southeast-1";
     const s3Client = new S3Client({ region: REGION });
     const params = {
