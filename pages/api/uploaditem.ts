@@ -44,6 +44,7 @@ export default async function handler(
       params: params,
     });
   } catch (err) {
+    console.log(err);
     const errorJSON = JSON.stringify(
       err,
       Object.getOwnPropertyNames(err),
