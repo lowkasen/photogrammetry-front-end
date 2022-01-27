@@ -5,9 +5,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Homebar } from "../../components/homebar";
 import { Messagebox } from "../../components/Messagebox";
 
-const fileTypes: Array<string> = [];
-const fileArray: Array<any> = [];
-const fileNames: Array<string> = [];
+var fileTypes: Array<string> = [];
+var fileArray: Array<any> = [];
+var fileNames: Array<string> = [];
 const form: Array<FormData> = [];
 const promise: Array<Promise<any>> = [];
 const data: Array<any> = [];
@@ -71,6 +71,10 @@ const Video: NextPage = () => {
       setSubmitButtonDisabled(true);
       return;
     }
+
+    fileNames = [];
+    fileTypes = [];
+    fileArray = [];
 
     for (let i = 0; i < 1; i++) {
       fileNames.push(event.target.files[0].name);

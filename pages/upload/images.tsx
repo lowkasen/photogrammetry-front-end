@@ -5,9 +5,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Homebar } from "../../components/homebar";
 import { Messagebox } from "../../components/Messagebox";
 
-const fileTypes: Array<string> = [];
-const fileArray: Array<any> = [];
-const fileNames: Array<string> = [];
+var fileTypes: Array<string> = [];
+var fileArray: Array<any> = [];
+var fileNames: Array<string> = [];
 const form: Array<FormData> = [];
 const promise: Array<Promise<any>> = [];
 const data: Array<any> = [];
@@ -66,15 +66,22 @@ const Images: NextPage = () => {
   // Function that runs when files are changed in the form
   const fileChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
+      console.log("target files is null.");
       setSubmitButtonDisabled(true);
       return;
     }
 
     const numberOfFiles = event.target.files.length;
     if (numberOfFiles > 50 || numberOfFiles < 1) {
+      console.log("number of target files is: " + String(numberOfFiles));
+      console.log("target files is none or more than 50");
       setSubmitButtonDisabled(true);
       return;
     }
+
+    fileNames = [];
+    fileTypes = [];
+    fileArray = [];
 
     for (let i = 0; i < numberOfFiles; i++) {
       fileNames.push(event.target.files[i].name);
@@ -88,6 +95,7 @@ const Images: NextPage = () => {
       )
     ) {
       // case if not all the files selected are images
+      console.log("Filetype mismatch");
       setSubmitButtonDisabled(true);
       setMessage("Filetype: Only images allowed");
     } else {
@@ -101,7 +109,6 @@ const Images: NextPage = () => {
     <div>
       <Homebar />
       <h1>Upload images</h1>
-      {/* <form action="https://httpbin.org/post" method="POST" encType="multipart/form-data" id ="theForm"> */}
       <form onSubmit={fileSubmitHandler}>
         <input
           type="file"

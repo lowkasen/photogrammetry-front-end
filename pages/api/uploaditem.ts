@@ -14,6 +14,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    console.log("using formidable");
     const form = formidable({ multiples: true });
 
     const promiseForm = new Promise<{ fields: Fields; files: Files }>(
