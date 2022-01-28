@@ -25,6 +25,7 @@ export default async function handler(
         form.parse(req, (err: any, fields: Fields, files: Files) => {
           if (err) {
             console.log("rejected form");
+            console.log(err);
             reject(err);
           } else {
             console.log("successfully parsed form");
