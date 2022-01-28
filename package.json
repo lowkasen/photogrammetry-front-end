@@ -12,6 +12,7 @@
     "@aws-sdk/signature-v4-crt": "^3.47.2",
     "@babel/core": "^7.16.10",
     "@types/formidable": "^2.0.3",
+    "aws-amplify": "^4.3.13",
     "formidable": "^2.0.1",
     "formidable-serverless": "^1.1.1",
     "fs": "^0.0.1-security",
