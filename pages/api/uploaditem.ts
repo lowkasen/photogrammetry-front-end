@@ -26,9 +26,10 @@ export default async function handler(
           if (err) {
             console.log("rejected form");
             reject(err);
+          } else {
+            console.log("successfully parsed form");
+            resolve({ fields, files });
           }
-          console.log("successfully parsed form");
-          resolve({ fields, files });
         });
       }
     );
