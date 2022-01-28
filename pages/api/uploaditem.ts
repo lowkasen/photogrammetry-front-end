@@ -34,7 +34,7 @@ export default async function handler(
 
     const item = await readFile(myFile.path);
 
-    console.log("is it here?");
+    console.log("path parsed");
 
     const REGION = "ap-southeast-1";
     const s3Client = new S3Client({ region: REGION });

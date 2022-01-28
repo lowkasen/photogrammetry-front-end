@@ -45,13 +45,22 @@ const Video: NextPage = () => {
         );
       }
 
-      Promise.all(promise).then((response) => {
-        for (let i = 0; i < form.length; i++) {
-          data.push(response[i]);
-        }
-      });
+      const response = await Promise.all(promise);
 
-      setMessage("Upload successful, uuid: " + UUID);
+      let isOK = true;
+      for (let i = 0; i < form.length; i++) {
+        data.push(response[i]);
+        console.log(response[0]);
+        if (response[i].ok !== true) {
+          isOK = false;
+        }
+      }
+
+      if (isOK === true) {
+        setMessage("Upload successful, uuid: " + UUID);
+      } else {
+        throw new Error("uploaditem API return not OK.");
+      }
     } catch (err) {
       console.error(err);
       setMessage("Upload failed");
