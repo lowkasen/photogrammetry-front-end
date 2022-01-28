@@ -18,6 +18,7 @@ export default async function handler(
     console.log("using formidable");
     const form = formidable({ multiples: true });
 
+    console.log("using promiseForm");
     const promiseForm = new Promise<{ fields: Fields; files: Files }>(
       (resolve, reject) => {
         form.parse(req, (err: any, fields: Fields, files: Files) => {
@@ -27,13 +28,12 @@ export default async function handler(
       }
     );
 
+    console.log("await promiseForm");
     const test = await promiseForm;
     const myFile = test.files.item as File & { path: string };
 
-    console.log(myFile);
-
+    console.log(myFile.path);
     const item = await readFile(myFile.path);
-
     console.log("path parsed");
 
     const REGION = "ap-southeast-1";
