@@ -17,7 +17,7 @@ export default async function handler(
 ) {
   try {
     console.log("using formidable");
-    const form = new formidable.IncomingForm();
+    const form = formidable({ multiples: true });
 
     console.log("using promiseForm");
     const promiseForm = new Promise<{ fields: any; files: any }>(
@@ -39,11 +39,13 @@ export default async function handler(
 
     console.log("await promiseForm");
     const test = await promiseForm;
-    const myFile = test.files.item as File & {
-      path: string;
-      originalFilename: string;
-      newFilename: string;
-    };
+    const myFile = test.files.item[0] as File;
+    console.log(myFile);
+    // const myFile = test.files.item as File & {
+    //   path: string;
+    //   originalFilename: string;
+    //   newFilename: string;
+    // };
 
     console.log("originalFilename: " + myFile.originalFilename);
     console.log("newFilename: " + myFile.newFilename);
