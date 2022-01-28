@@ -16,7 +16,7 @@ export default async function handler(
 ) {
   try {
     console.log("using formidable");
-    const form = formidable({ multiples: true });
+    const form = new formidable.IncomingForm();
 
     console.log("using promiseForm");
     const promiseForm = new Promise<{ fields: Fields; files: Files }>(
@@ -32,9 +32,10 @@ export default async function handler(
     const test = await promiseForm;
     const myFile = test.files.item as File & { path: string };
 
-    console.log(myFile.path);
+    console.log("originalFilename: " + myFile.originalFilename);
+    console.log("newFilename: " + myFile.newFilename);
     const item = await readFile(myFile.path);
-    console.log("path parsed");
+    console.log("path parsed: " + myFile.path);
 
     const REGION = "ap-southeast-1";
     const s3Client = new S3Client({ region: REGION });

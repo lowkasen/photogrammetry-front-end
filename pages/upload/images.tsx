@@ -6,7 +6,7 @@ import { Homebar } from "../../components/homebar";
 import { Messagebox } from "../../components/Messagebox";
 
 var fileTypes: Array<string> = [];
-var fileArray: Array<any> = [];
+var fileArray: Array<Blob> = [];
 var fileNames: Array<string> = [];
 var form: Array<FormData> = [];
 var promise: Array<Promise<any>> = [];
@@ -32,7 +32,7 @@ const Images: NextPage = () => {
 
       for (let i = 0; i < fileArray.length; i++) {
         form.push(new FormData());
-        form[i].append("item", fileArray[i]);
+        form[i].append("item", fileArray[i], fileNames[i]);
         form[i].append("uuid", UUID);
         form[i].append("filename", fileNames[i]);
       }
@@ -92,6 +92,20 @@ const Images: NextPage = () => {
       fileTypes.push(event.target.files[i].type);
       fileArray.push(event.target.files[i]);
     }
+
+    // var reader = new FileReader();
+    // var fileByteArray = [];
+    // reader.readAsArrayBuffer(event.target.files[0]);
+    // reader.onloadend = function (evt) {
+    //   if (!evt.target){return}
+    //   if (evt.target.readyState == FileReader.DONE) {
+    //     var arrayBuffer = evt.target.result,
+    //       array = new Uint8Array(arrayBuffer as ArrayBuffer);
+    //     for (var i = 0; i < array.length; i++) {
+    //       fileByteArray.push(array[i]);
+    //     }
+    //   }
+    // };
 
     if (
       !fileTypes.every(
