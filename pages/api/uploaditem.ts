@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { S3Client, PutObjectCommand, QuoteFields } from "@aws-sdk/client-s3";
 import { readFile } from "fs/promises";
 const formidable = require("formidable-serverless");
-import { Fields, File, Files } from "formidable";
+//import { Fields, File, Files } from "formidable";
 
 export const config = {
   api: {
@@ -19,10 +19,10 @@ export default async function handler(
     const form = new formidable.IncomingForm();
 
     console.log("using promiseForm");
-    const promiseForm = new Promise<{ fields: Fields; files: Files }>(
+    const promiseForm = new Promise<{ fields: any; files: any }>(
       (resolve, reject) => {
         console.log("parsing form");
-        form.parse(req, (err: any, fields: Fields, files: Files) => {
+        form.parse(req, (err: any, fields: any, files: any) => {
           if (err) {
             console.log("rejected form");
             console.log(err);
@@ -37,7 +37,11 @@ export default async function handler(
 
     console.log("await promiseForm");
     const test = await promiseForm;
-    const myFile = test.files.item as File & { path: string };
+    const myFile = test.files.item as File & {
+      path: string;
+      originalFilename: string;
+      newFilename: string;
+    };
 
     console.log("originalFilename: " + myFile.originalFilename);
     console.log("newFilename: " + myFile.newFilename);
