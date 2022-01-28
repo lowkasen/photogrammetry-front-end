@@ -47,7 +47,10 @@ export default async function handler(
     const results = await s3Client.send(command);
 
     res.status(200).json({
-      params: params,
+      params: {
+        Bucket: params.Bucket,
+        Key: params.Key,
+      },
     });
   } catch (err) {
     console.log(err);
