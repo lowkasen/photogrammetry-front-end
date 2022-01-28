@@ -21,8 +21,13 @@ export default async function handler(
     console.log("using promiseForm");
     const promiseForm = new Promise<{ fields: Fields; files: Files }>(
       (resolve, reject) => {
+        console.log("parsing form");
         form.parse(req, (err: any, fields: Fields, files: Files) => {
-          if (err) reject(err);
+          if (err) {
+            console.log("rejected form");
+            reject(err);
+          }
+          console.log("successfully parsed form");
           resolve({ fields, files });
         });
       }
