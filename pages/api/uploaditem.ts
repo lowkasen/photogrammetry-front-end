@@ -31,6 +31,7 @@ export default async function handler(
             reject(err);
           } else {
             console.log("successfully parsed form");
+            console.log(req);
             resolve({ fields, files });
           }
         });
