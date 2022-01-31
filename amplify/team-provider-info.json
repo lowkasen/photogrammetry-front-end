@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-photofe2-dev-105653-authRole",
+            "UnauthRoleArn": "arn:aws:iam::054237276863:role/amplify-photofe2-dev-105653-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::054237276863:role/amplify-photofe2-dev-105653-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-photofe2-dev-105653-deployment",
+            "UnauthRoleName": "amplify-photofe2-dev-105653-unauthRole",
+            "StackName": "amplify-photofe2-dev-105653",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:054237276863:stack/amplify-photofe2-dev-105653/747013b0-8241-11ec-833a-02f2f30e50fe",
+            "AmplifyAppId": "d350s41fqoj7rm"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d350s41fqoj7rm",
+                    "type": "cicd"
+                }
+            }
+        }
+    }
+}
