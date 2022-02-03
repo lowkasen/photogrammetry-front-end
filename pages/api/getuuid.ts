@@ -7,7 +7,6 @@ export default async function handler(
 ) {
   try {
     const uuid = randomUUID();
-    console.log(uuid);
     res.status(200).json({ uuid: uuid });
   } catch (err) {
     const errorJSON = JSON.stringify(
