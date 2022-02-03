@@ -1,37 +1,36 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { Storage } from "aws-amplify";
 import { Homebar } from "../../components/homebar";
 import { Messagebox } from "../../components/Messagebox";
-import Amplify, { Auth, Storage } from "aws-amplify";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-var fileTypes: Array<string> = [];
-var fileArray: Array<any> = [];
-var fileNames: Array<string> = [];
-var form: Array<FormData> = [];
-var promise: Array<Promise<any>> = [];
-var data: Array<any> = [];
-
-const Video: NextPage = () => {
+const VideoAmplify: NextPage = () => {
   const [message, setMessage] = useState("Choose video to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [fileNames, setfileNames] = useState<Array<string>>([]);
+  const [fileTypes, setfileTypes] = useState<Array<string>>([]);
+  const [fileArray, setfileArray] = useState<Array<any>>([]);
+  const [form, setForm] = useState<Array<FormData>>([]);
+  const [promise, setPromise] = useState<Array<Promise<any>>>([]);
+  const [data, setData] = useState<Array<any>>([]);
 
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("Preparing upload");
 
-    form = [];
-    promise = [];
-    data = [];
+    setForm([]);
+    setPromise([]);
+    setData([]);
 
     try {
       const uuid: { [key: string]: any } = await (
         await fetch("/api/getuuid")
       ).json();
       const UUID: string = uuid.uuid;
+      //console.log(fileArray);
 
       for (let i = 0; i < fileArray.length; i++) {
+        //console.log(form);
         form.push(new FormData());
         form[i].append("item", fileArray[i]);
         form[i].append("uuid", UUID);
@@ -41,6 +40,7 @@ const Video: NextPage = () => {
       setMessage("Uploading");
 
       for (let i = 0; i < form.length; i++) {
+        //console.log(form);
         promise.push(
           fetch("/api/uploaditem", { method: "POST", body: form[i] })
         );
@@ -51,7 +51,7 @@ const Video: NextPage = () => {
       let isOK = true;
       for (let i = 0; i < form.length; i++) {
         data.push(response[i]);
-        console.log(response[0]);
+        //console.log(response[0]);
         if (response[i].ok !== true) {
           isOK = false;
         }
@@ -80,15 +80,23 @@ const Video: NextPage = () => {
       return;
     }
 
-    fileNames = [];
-    fileTypes = [];
-    fileArray = [];
+    setfileNames([]);
+    setfileTypes([]);
+    setfileArray([]);
+
+    console.log(fileNames);
 
     for (let i = 0; i < 1; i++) {
       fileNames.push(event.target.files[0].name);
       fileTypes.push(event.target.files[0].type);
       fileArray.push(event.target.files[0]);
+
+      setfileNames(fileNames);
+      setfileTypes(fileTypes);
+      setfileArray(fileArray);
     }
+
+    console.log(fileNames);
 
     if (!fileTypes.every((v) => v.includes("video"))) {
       // case if not all the files selected are video
@@ -120,4 +128,4 @@ const Video: NextPage = () => {
   );
 };
 
-export default Video;
+export default VideoAmplify;

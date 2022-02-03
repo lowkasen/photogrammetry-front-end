@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/helloamplifyapi": {
+      "name": "/helloamplifyapi",
+      "lambdaFunction": "photofe2c0aaa980",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
