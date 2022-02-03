@@ -1,28 +1,37 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MutableRefObject,
+  useRef,
+  useState,
+} from "react";
 import { Homebar } from "../../components/homebar";
 import { Messagebox } from "../../components/Messagebox";
-
-var fileTypes: Array<string> = [];
-var fileArray: Array<Blob> = [];
-var fileNames: Array<string> = [];
-var form: Array<FormData> = [];
-var promise: Array<Promise<any>> = [];
-var data: Array<any> = [];
+import Amplify, { Storage } from "aws-amplify";
+import awsconfig from "../../aws-exports.js";
+Amplify.configure(awsconfig);
 
 const Images: NextPage = () => {
   const [message, setMessage] = useState("Choose files to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  let fileTypes: MutableRefObject<Array<string>> = useRef([]);
+  let fileArray: MutableRefObject<Array<any>> = useRef([]);
+  let fileNames: MutableRefObject<Array<string>> = useRef([]);
+  let form: MutableRefObject<Array<FormData>> = useRef([]);
+  let promise: MutableRefObject<Array<Promise<any>>> = useRef([]);
+  let data: MutableRefObject<Array<any>> = useRef([]);
 
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmitButtonDisabled(true);
     setMessage("Preparing upload");
 
-    form = [];
-    promise = [];
-    data = [];
+    form.current = [];
+    promise.current = [];
+    data.current = [];
 
     try {
       const uuid: { [key: string]: any } = await (
@@ -30,41 +39,30 @@ const Images: NextPage = () => {
       ).json();
       const UUID: string = uuid.uuid;
 
-      for (let i = 0; i < fileArray.length; i++) {
-        form.push(new FormData());
-        form[i].append("item", fileArray[i], fileNames[i]);
-        form[i].append("uuid", UUID);
-        form[i].append("filename", fileNames[i]);
+      for (let i = 0; i < fileArray.current.length; i++) {
+        form.current.push(new FormData());
+        form.current[i].append("item", fileArray.current[i]);
+        form.current[i].append("uuid", UUID);
+        form.current[i].append("filename", fileNames.current[i]);
       }
 
       setMessage("Uploading");
 
-      for (let i = 0; i < form.length; i++) {
-        promise.push(
-          fetch("/api/uploaditem", { method: "POST", body: form[i] })
+      // Amplify Storage methods
+      for (let i = 0; i < form.current.length; i++) {
+        promise.current.push(
+          Storage.put(UUID + "/" + fileNames.current[i], fileArray.current[i])
         );
       }
 
-      const response = await Promise.all(promise);
-
-      let isOK = true;
-      for (let i = 0; i < form.length; i++) {
-        data.push(response[i]);
-        console.log(response[0]);
-        if (response[i].ok !== true) {
-          isOK = false;
-        }
-      }
-
-      if (isOK === true) {
-        setMessage("Upload successful, uuid: " + UUID);
-      } else {
-        throw new Error("uploaditem API return not OK.");
-      }
+      const response = await Promise.all(promise.current);
+      setMessage("Upload successful, uuid: " + UUID);
     } catch (err) {
       console.error(err);
       setMessage("Upload failed");
     }
+
+    setSubmitButtonDisabled(false);
   }
 
   // Function that runs when files are changed in the form
@@ -83,32 +81,18 @@ const Images: NextPage = () => {
       return;
     }
 
-    fileNames = [];
-    fileTypes = [];
-    fileArray = [];
+    fileNames.current = [];
+    fileTypes.current = [];
+    fileArray.current = [];
 
     for (let i = 0; i < numberOfFiles; i++) {
-      fileNames.push(event.target.files[i].name);
-      fileTypes.push(event.target.files[i].type);
-      fileArray.push(event.target.files[i]);
+      fileNames.current.push(event.target.files[i].name);
+      fileTypes.current.push(event.target.files[i].type);
+      fileArray.current.push(event.target.files[i]);
     }
 
-    // var reader = new FileReader();
-    // var fileByteArray = [];
-    // reader.readAsArrayBuffer(event.target.files[0]);
-    // reader.onloadend = function (evt) {
-    //   if (!evt.target){return}
-    //   if (evt.target.readyState == FileReader.DONE) {
-    //     var arrayBuffer = evt.target.result,
-    //       array = new Uint8Array(arrayBuffer as ArrayBuffer);
-    //     for (var i = 0; i < array.length; i++) {
-    //       fileByteArray.push(array[i]);
-    //     }
-    //   }
-    // };
-
     if (
-      !fileTypes.every(
+      !fileTypes.current.every(
         (v) => v === "image/jpeg" || v === "image/png" || v === "image/jpg"
       )
     ) {
