@@ -8,11 +8,14 @@ import {
   useRef,
   useState,
 } from "react";
-import { Homebar } from "../../components/homebar";
+import { Navbar } from "../../components/Navbar";
 import { Messagebox } from "../../components/Messagebox";
 import Amplify, { Storage } from "aws-amplify";
 import awsconfig from "../../aws-exports.js";
 Amplify.configure(awsconfig);
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 const Video: NextPage = () => {
   const [message, setMessage] = useState("Choose video to upload");
@@ -23,6 +26,10 @@ const Video: NextPage = () => {
   let form: MutableRefObject<Array<FormData>> = useRef([]);
   let promise: MutableRefObject<Array<Promise<any>>> = useRef([]);
   let data: MutableRefObject<Array<any>> = useRef([]);
+
+  const Input = styled("input")({
+    display: "none",
+  });
 
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -100,16 +107,41 @@ const Video: NextPage = () => {
 
   return (
     <div>
-      <Homebar />
-      <h1>Upload video</h1>
+      <Navbar />
+      <h2>Upload video</h2>
       <form onSubmit={fileSubmitHandler}>
-        <input
-          type="file"
-          id="myFile"
-          name="filename"
-          onChange={fileChangeHandler}
-        ></input>
-        <input type="submit" disabled={submitButtonDisabled}></input>
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <label htmlFor="contained-button-file">
+            <Input
+              accept="video/*"
+              id="contained-button-file"
+              type="file"
+              onChange={fileChangeHandler}
+            />
+            <Button component="span" size="small">
+              Choose files
+            </Button>
+          </label>
+          <label htmlFor="contained-submit-button">
+            <Input
+              id="contained-submit-button"
+              type="submit"
+              disabled={submitButtonDisabled}
+            />
+            <Button
+              variant="contained"
+              component="span"
+              disabled={submitButtonDisabled}
+            >
+              Submit
+            </Button>
+          </label>
+        </Stack>
       </form>
       <hr></hr>
       <Messagebox message={message} />

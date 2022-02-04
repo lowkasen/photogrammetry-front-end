@@ -1,7 +1,6 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
+  margin: 1% 5%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -13,4 +12,28 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+nav {
+  margin: 10px auto 40px;
+  padding: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  border-bottom: 1px solid #ddd;
+}
+
+nav a {
+  margin: 12px;
+  text-align: center;
+}
+
+nav a:hover,
+nav a:focus,
+nav a:active {
+  text-decoration: underline;
+}
+
+nav .logo {
+  margin-right: auto;
 }

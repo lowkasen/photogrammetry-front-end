@@ -2,10 +2,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Homebar } from "../components/homebar";
+import { Navbar } from "../components/Navbar";
 import styles from "../styles/Home.module.css";
+import Button from "@mui/material/Button";
 import Amplify from "aws-amplify";
 import awsconfig from "../aws-exports.js";
+import { Modeltable } from "../components/Modeltable";
 Amplify.configure(awsconfig);
 
 const Home: NextPage = () => {
@@ -13,21 +15,31 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Homebar />
-      <h1>Photogrammetry Capstone</h1>
-      <h2>Models</h2>
-      <h2>Viewer</h2>
+      <Navbar />
+      <h2>About</h2>
+      <p>This project ...</p>
+      <h2>Latest models</h2>
+      <Modeltable
+        table={[
+          { date: "test1", uuid: "341231234123441234" },
+          { date: "test2", uuid: "4234234234" },
+        ]}
+      />
+      {/* <h2>Viewer</h2> */}
       <h2>Create your own model</h2>
       <div>
-        <button onClick={() => router.push("/upload/images")}>
+        <Button
+          variant="outlined"
+          onClick={() => router.push("/upload/images")}
+        >
           Upload images
-        </button>
+        </Button>
       </div>
       <br></br>
       <div>
-        <button onClick={() => router.push("/upload/video")}>
+        <Button variant="outlined" onClick={() => router.push("/upload/video")}>
           Upload video
-        </button>
+        </Button>
       </div>
     </div>
   );
