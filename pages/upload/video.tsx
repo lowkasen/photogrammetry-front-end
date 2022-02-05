@@ -124,7 +124,7 @@ const Video: NextPage = () => {
               onChange={fileChangeHandler}
             />
             <Button component="span" size="small">
-              Choose files
+              Choose video
             </Button>
           </label>
           <label htmlFor="contained-submit-button">

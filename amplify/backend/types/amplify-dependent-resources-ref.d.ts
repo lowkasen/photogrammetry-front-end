@@ -25,10 +25,10 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "api67ce2af8": {
-            "RootUrl": "string",
-            "ApiName": "string",
-            "ApiId": "string"
+        "photoFE2": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
         }
     }
 }

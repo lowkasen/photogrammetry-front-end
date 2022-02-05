@@ -25,7 +25,7 @@
       "function": {
         "photofe2c0aaa980": {
           "deploymentBucketName": "amplify-photofe2-dev-105653-deployment",
-          "s3Key": "amplify-builds/photofe2c0aaa980-344c50436738334c4141-build.zip"
+          "s3Key": "amplify-builds/photofe2c0aaa980-6f6174335454634f744e-build.zip"
         }
       }
     }

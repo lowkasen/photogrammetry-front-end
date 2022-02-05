@@ -1,4 +1,5 @@
-import type { NextPage } from "next";
+import type { InferGetServerSidePropsType, NextPage } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -10,7 +11,17 @@ import awsconfig from "../aws-exports.js";
 import { Modeltable } from "../components/Modeltable";
 Amplify.configure(awsconfig);
 
-const Home: NextPage = () => {
+import {
+  DataStore,
+  ModelPredicateCreator,
+  ModelSortPredicateCreator,
+  Predicates,
+} from "@aws-amplify/datastore";
+import { UUIDModel } from "../models";
+
+const Home: NextPage = ({
+  modelarray,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
   return (
@@ -19,12 +30,7 @@ const Home: NextPage = () => {
       <h2>About</h2>
       <p>This project ...</p>
       <h2>Latest models</h2>
-      <Modeltable
-        table={[
-          { date: "test1", uuid: "341231234123441234" },
-          { date: "test2", uuid: "4234234234" },
-        ]}
-      />
+      <Modeltable table={modelarray} />
       {/* <h2>Viewer</h2> */}
       <h2>Create your own model</h2>
       <div>
@@ -43,6 +49,26 @@ const Home: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const models = await DataStore.query(UUIDModel, Predicates.ALL, {
+    sort: (s) => s.DateTime("DESCENDING"),
+    page: 0,
+    limit: 10,
+  });
+
+  const modelarray: Array<{ date: string; uuid: string }> = [];
+
+  for (let i = 0; i < models.length; i++) {
+    modelarray.push({ date: models[i].DateTime, uuid: models[i].UUID });
+  }
+
+  return {
+    props: {
+      modelarray,
+    },
+  };
 };
 
 export default Home;
