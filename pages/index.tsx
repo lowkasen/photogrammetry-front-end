@@ -11,18 +11,38 @@ import awsconfig from "../aws-exports.js";
 import { Modeltable } from "../components/Modeltable";
 Amplify.configure(awsconfig);
 
-import {
-  DataStore,
-  ModelPredicateCreator,
-  ModelSortPredicateCreator,
-  Predicates,
-} from "@aws-amplify/datastore";
+import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { UUIDModel } from "../models";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 
-const Home: NextPage = ({
-  modelarray,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home: NextPage = () => {
   const router = useRouter();
+  const [modelarrayCS, setmodelarrayCS] = useState<
+    Array<{ date: string; uuid: string }>
+  >([]);
+
+  useEffect(() => {
+    async function dataStoreQuery() {
+      try {
+        var modelarray = [];
+        const models = await DataStore.query(UUIDModel, Predicates.ALL, {
+          sort: (s) => s.DateTime("DESCENDING"),
+          page: 0,
+          limit: 10,
+        });
+
+        for (let i = 0; i < models.length; i++) {
+          modelarray.push({ date: models[i].DateTime, uuid: models[i].UUID });
+        }
+        console.log(modelarray);
+        setmodelarrayCS(modelarray);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    dataStoreQuery().catch((err) => console.error(err));
+  }, []);
 
   return (
     <div>
@@ -30,7 +50,7 @@ const Home: NextPage = ({
       <h2>About</h2>
       <p>This project ...</p>
       <h2>Latest models</h2>
-      <Modeltable table={modelarray} />
+      <Modeltable table={modelarrayCS} />
       {/* <h2>Viewer</h2> */}
       <h2>Create your own model</h2>
       <div>
@@ -51,24 +71,33 @@ const Home: NextPage = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const models = await DataStore.query(UUIDModel, Predicates.ALL, {
-    sort: (s) => s.DateTime("DESCENDING"),
-    page: 0,
-    limit: 10,
-  });
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   try {
+//     // const models = await DataStore.query(UUIDModel, Predicates.ALL, {
+//     //   sort: (s) => s.DateTime("DESCENDING"),
+//     //   page: 0,
+//     //   limit: 10,
+//     // });
 
-  const modelarray: Array<{ date: string; uuid: string }> = [];
+//     // const modelarray: Array<{ date: string; uuid: string }> = [];
 
-  for (let i = 0; i < models.length; i++) {
-    modelarray.push({ date: models[i].DateTime, uuid: models[i].UUID });
-  }
+//     // for (let i = 0; i < models.length; i++) {
+//     //   modelarray.push({ date: models[i].DateTime, uuid: models[i].UUID });
+//     // }
 
-  return {
-    props: {
-      modelarray,
-    },
-  };
-};
+//     return {
+//       props: {
+//         modelarray: [{ date: "error", uuid: "error" }],
+//       },
+//     };
+//   } catch (err) {
+//     console.log(err);
+//     return {
+//       props: {
+//         modelarray: [{ date: "error", uuid: "error" }],
+//       },
+//     };
+//   }
+// };
 
 export default Home;

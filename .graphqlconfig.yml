@@ -1,0 +1,15 @@
+projects:
+  photoFE2:
+    schemaPath: amplify/backend/api/photoFE2/build/schema.graphql
+    includes:
+      - ./graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: ./API.ts
+        docsFilePath: ./graphql
+        region: ap-southeast-1
+        apiId: null
+        maxDepth: 2

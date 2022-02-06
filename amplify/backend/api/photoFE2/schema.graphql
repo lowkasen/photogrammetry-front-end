@@ -1,4 +1,4 @@
-type UUIDModel @model @auth(rules: [{allow: public}]) {
+type UUIDModel @model @auth(rules: [{ allow: public }]) {
   id: ID!
   DateTime: AWSDateTime!
   UUID: String!
