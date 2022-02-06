@@ -10,12 +10,13 @@ import {
 } from "react";
 import { Navbar } from "../../components/Navbar";
 import { Messagebox } from "../../components/Messagebox";
-import Amplify, { Storage } from "aws-amplify";
+import Amplify, { DataStore, Storage } from "aws-amplify";
 import awsconfig from "../../aws-exports.js";
 Amplify.configure(awsconfig);
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { UUIDModel } from "../../models";
 
 const Video: NextPage = () => {
   const [message, setMessage] = useState("Choose video to upload");
@@ -63,6 +64,14 @@ const Video: NextPage = () => {
       }
 
       const response = await Promise.all(promise.current);
+      // Save to Amplify DataStore
+      await DataStore.save(
+        new UUIDModel({
+          DateTime: new Date().toISOString(),
+          UUID: UUID,
+        })
+      );
+
       setMessage("Upload successful, uuid: " + UUID);
     } catch (err) {
       console.error(err);
