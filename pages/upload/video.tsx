@@ -59,7 +59,8 @@ const Video: NextPage = () => {
       // Amplify Storage methods
       for (let i = 0; i < form.current.length; i++) {
         promise.current.push(
-          Storage.put(UUID + "/" + fileNames.current[i], fileArray.current[i])
+          // Storage.put(UUID + "/" + fileNames.current[i], fileArray.current[i]) change cause Leon's lambda
+          Storage.put(UUID + "_" + fileNames.current[i], fileArray.current[i])
         );
       }
 
