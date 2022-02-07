@@ -1,6 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import {
   ChangeEvent,
   FormEvent,
@@ -21,12 +19,10 @@ import { UUIDModel } from "../../models";
 const Video: NextPage = () => {
   const [message, setMessage] = useState("Choose video to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [filesButtonDisabled, setfilesButtonDisabled] = useState(false);
   let fileTypes: MutableRefObject<Array<string>> = useRef([]);
   let fileArray: MutableRefObject<Array<any>> = useRef([]);
   let fileNames: MutableRefObject<Array<string>> = useRef([]);
-  let form: MutableRefObject<Array<FormData>> = useRef([]);
-  let promise: MutableRefObject<Array<Promise<any>>> = useRef([]);
-  let data: MutableRefObject<Array<any>> = useRef([]);
 
   const Input = styled("input")({
     display: "none",
@@ -35,36 +31,27 @@ const Video: NextPage = () => {
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitButtonDisabled(true);
+    setfilesButtonDisabled(true);
     setMessage("Preparing upload");
 
-    form.current = [];
-    promise.current = [];
-    data.current = [];
-
     try {
+      if (fileArray.current.length > 1) {
+        throw new Error("More than 1 file selected");
+      }
+
       const uuid: { [key: string]: any } = await (
         await fetch("/api/getuuid")
       ).json();
       const UUID: string = uuid.uuid;
 
-      for (let i = 0; i < fileArray.current.length; i++) {
-        form.current.push(new FormData());
-        form.current[i].append("item", fileArray.current[i]);
-        form.current[i].append("uuid", UUID);
-        form.current[i].append("filename", fileNames.current[i]);
-      }
-
       setMessage("Uploading");
 
       // Amplify Storage methods
-      for (let i = 0; i < form.current.length; i++) {
-        promise.current.push(
-          // Storage.put(UUID + "/" + fileNames.current[i], fileArray.current[i]) change cause Leon's lambda
-          Storage.put(UUID + "_" + fileNames.current[i], fileArray.current[i])
-        );
-      }
+      const response = await Storage.put(
+        UUID + "_" + fileNames.current[0],
+        fileArray.current[0]
+      );
 
-      const response = await Promise.all(promise.current);
       // Save to Amplify DataStore
       await DataStore.save(
         new UUIDModel({
@@ -80,6 +67,7 @@ const Video: NextPage = () => {
     }
 
     setSubmitButtonDisabled(false);
+    setfilesButtonDisabled(false);
   }
 
   // Function that runs when files are changed in the form
@@ -132,8 +120,13 @@ const Video: NextPage = () => {
               id="contained-button-file"
               type="file"
               onChange={fileChangeHandler}
+              disabled={filesButtonDisabled}
             />
-            <Button component="span" size="small">
+            <Button
+              component="span"
+              size="small"
+              disabled={filesButtonDisabled}
+            >
               Choose video
             </Button>
           </label>

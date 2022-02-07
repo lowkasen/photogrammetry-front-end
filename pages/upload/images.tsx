@@ -1,6 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import {
   ChangeEvent,
   FormEvent,
@@ -17,29 +15,27 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { UUIDModel } from "../../models";
+import JSZip from "jszip";
 
 const Images: NextPage = () => {
   const [message, setMessage] = useState("Choose files to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [filesButtonDisabled, setfilesButtonDisabled] = useState(false);
   let fileTypes: MutableRefObject<Array<string>> = useRef([]);
   let fileArray: MutableRefObject<Array<any>> = useRef([]);
   let fileNames: MutableRefObject<Array<string>> = useRef([]);
-  let form: MutableRefObject<Array<FormData>> = useRef([]);
-  let promise: MutableRefObject<Array<Promise<any>>> = useRef([]);
-  let data: MutableRefObject<Array<any>> = useRef([]);
 
   const Input = styled("input")({
     display: "none",
   });
 
   async function fileSubmitHandler(event: FormEvent<HTMLFormElement>) {
+    const zip = new JSZip();
+
     event.preventDefault();
     setSubmitButtonDisabled(true);
+    setfilesButtonDisabled(true);
     setMessage("Preparing upload");
-
-    form.current = [];
-    promise.current = [];
-    data.current = [];
 
     try {
       const uuid: { [key: string]: any } = await (
@@ -47,23 +43,19 @@ const Images: NextPage = () => {
       ).json();
       const UUID: string = uuid.uuid;
 
-      for (let i = 0; i < fileArray.current.length; i++) {
-        form.current.push(new FormData());
-        form.current[i].append("item", fileArray.current[i]);
-        form.current[i].append("uuid", UUID);
-        form.current[i].append("filename", fileNames.current[i]);
-      }
-
       setMessage("Uploading");
 
       // Amplify Storage methods
-      for (let i = 0; i < form.current.length; i++) {
-        promise.current.push(
-          Storage.put(UUID + "/" + fileNames.current[i], fileArray.current[i])
-        );
+      for (let i = 0; i < fileArray.current.length; i++) {
+        zip.file(fileNames.current[i], fileArray.current[i]);
+        // promise.current.push(
+        //   Storage.put(UUID + "/" + fileNames.current[i], fileArray.current[i])
+        // );
       }
+      //const response1 = await Promise.all(promise.current);
+      const zipblob = await zip.generateAsync({ type: "blob" });
+      const response = await Storage.put(UUID + "_compressed.zip", zipblob);
 
-      const response = await Promise.all(promise.current);
       // Save to Amplify DataStore
       await DataStore.save(
         new UUIDModel({
@@ -79,6 +71,7 @@ const Images: NextPage = () => {
     }
 
     setSubmitButtonDisabled(false);
+    setfilesButtonDisabled(false);
   }
 
   // Function that runs when files are changed in the form
@@ -141,8 +134,13 @@ const Images: NextPage = () => {
               multiple
               type="file"
               onChange={fileChangeHandler}
+              disabled={filesButtonDisabled}
             />
-            <Button component="span" size="small">
+            <Button
+              component="span"
+              size="small"
+              disabled={filesButtonDisabled}
+            >
               Choose files
             </Button>
           </label>
