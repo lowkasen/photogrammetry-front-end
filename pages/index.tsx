@@ -54,7 +54,7 @@ const Home: NextPage = () => {
       <ol>
         <li>
           Take pictures or a video recording of your prototype with your mobile
-          phone's camera.
+          camera.
         </li>
         <li>
           Navigate to AWS RealityStation Asset Studio to upload your images or
