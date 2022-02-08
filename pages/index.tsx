@@ -1,10 +1,8 @@
-import type { InferGetServerSidePropsType, NextPage } from "next";
-import { GetServerSideProps } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Navbar } from "../components/Navbar";
-import styles from "../styles/Home.module.css";
 import Button from "@mui/material/Button";
 import Amplify from "aws-amplify";
 import awsconfig from "../aws-exports.js";
@@ -13,8 +11,7 @@ Amplify.configure(awsconfig);
 
 import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { UUIDModel } from "../models";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Navbar2 } from "../components/Navbar2";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
   const router = useRouter();

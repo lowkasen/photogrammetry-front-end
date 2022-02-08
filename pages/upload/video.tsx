@@ -15,7 +15,6 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { UUIDModel } from "../../models";
-import { Navbar2 } from "../../components/Navbar2";
 
 const Video: NextPage = () => {
   const [message, setMessage] = useState("Choose video to upload");
