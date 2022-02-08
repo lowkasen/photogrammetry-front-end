@@ -4,7 +4,7 @@ export function Navbar() {
   return (
     <nav>
       <div className="logo">
-        <h1>Photogrammetry Capstone</h1>
+        <h1>AWS RealityStation Asset Studio</h1>
       </div>
 
       <Link href="/">

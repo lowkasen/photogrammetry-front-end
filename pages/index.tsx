@@ -48,11 +48,32 @@ const Home: NextPage = () => {
   return (
     <div>
       <Navbar />
-      <h2>About</h2>
-      <p>This project ...</p>
+
+      <h2>Getting started</h2>
+      <p>
+        Asset Studio allows you to automatically generate detailed 3D models
+        from videos and photos.
+      </p>
+      <p>Follow the instructions below to generate your 3D assets now.</p>
+      <ol>
+        <li>
+          Take pictures or a video recording of your prototype with your mobile
+          phone's camera.
+        </li>
+        <li>
+          Navigate to AWS RealityStation Asset Studio to upload your images or
+          your recording.
+        </li>
+        <li>Wait for your 3D model to be generated.</li>
+        <li>
+          Open up your phone and load up AWS RealityStation Streamer Client
+          application to visualise your 3D model.
+        </li>
+      </ol>
+      <br></br>
       <h2>Latest models</h2>
       <Modeltable table={modelarrayCS} />
-      {/* <h2>Viewer</h2> */}
+      <br></br>
       <h2>Create your own model</h2>
       <div>
         <Button
