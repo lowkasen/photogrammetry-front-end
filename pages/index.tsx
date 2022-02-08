@@ -48,7 +48,6 @@ const Home: NextPage = () => {
   return (
     <div>
       <Navbar />
-
       <h2>Getting started</h2>
       <p>
         Asset Studio allows you to automatically generate detailed 3D models
@@ -92,34 +91,5 @@ const Home: NextPage = () => {
     </div>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   try {
-//     // const models = await DataStore.query(UUIDModel, Predicates.ALL, {
-//     //   sort: (s) => s.DateTime("DESCENDING"),
-//     //   page: 0,
-//     //   limit: 10,
-//     // });
-
-//     // const modelarray: Array<{ date: string; uuid: string }> = [];
-
-//     // for (let i = 0; i < models.length; i++) {
-//     //   modelarray.push({ date: models[i].DateTime, uuid: models[i].UUID });
-//     // }
-
-//     return {
-//       props: {
-//         modelarray: [{ date: "error", uuid: "error" }],
-//       },
-//     };
-//   } catch (err) {
-//     console.log(err);
-//     return {
-//       props: {
-//         modelarray: [{ date: "error", uuid: "error" }],
-//       },
-//     };
-//   }
-// };
 
 export default Home;
