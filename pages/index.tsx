@@ -14,6 +14,7 @@ Amplify.configure(awsconfig);
 import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { UUIDModel } from "../models";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { Navbar2 } from "../components/Navbar2";
 
 const Home: NextPage = () => {
   const router = useRouter();

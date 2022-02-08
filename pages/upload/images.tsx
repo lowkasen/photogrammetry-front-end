@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { UUIDModel } from "../../models";
 import JSZip from "jszip";
+import { Navbar2 } from "../../components/Navbar2";
 
 const Images: NextPage = () => {
   const [message, setMessage] = useState("Choose files to upload");
