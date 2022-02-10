@@ -2,7 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Navbar } from "../components/Navbar";
+import styles from "../styles/Home.module.css";
+import { Navbar4 } from "../components/Navbar4";
+// import Navbar3 from "../components/Navbar3";
 import Button from "@mui/material/Button";
 import Amplify from "aws-amplify";
 import awsconfig from "../aws-exports.js";
@@ -44,49 +46,84 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Navbar />
-      <h2>Getting started</h2>
-      <p>
-        Asset Studio allows you to automatically generate detailed 3D models
-        from videos and photos.
-      </p>
-      <p>Follow the instructions below to generate your 3D assets now.</p>
-      <ol>
-        <li>
-          Take pictures or a video recording of your prototype with your mobile
-          camera.
-        </li>
-        <li>
-          Navigate to AWS RealityStation Asset Studio to upload your images or
-          your recording.
-        </li>
-        <li>Wait for your 3D model to be generated.</li>
-        <li>
-          Open up your phone and load up AWS RealityStation Streamer Client
-          application to visualise your 3D model.
-        </li>
-      </ol>
-      <br></br>
-      <h2>Latest models</h2>
-      <Modeltable table={modelarrayCS} />
-      <br></br>
-      <h2>Create your own model</h2>
-      <div>
-        <Button
-          variant="outlined"
-          onClick={() => router.push("/upload/images")}
-        >
-          Upload images
-        </Button>
+      <Navbar4 />
+      <div className="flex flex-col justify-center items-center pt-40 pb-20 text-center font-bold lg:text-8xl text-6xl space-y-2">
+        <div className="w-5/6 max-w-6xl">
+          <h1>Asset Studio</h1>
+          <p className="lg:text-3xl text-xl font-thin mx-8 lg:my-10 my-5">
+            Automatically generate{" "}
+            <p className="inline text-blue-500">detailed 3D models</p> from
+            videos and photos, enabling you to share highly detailed prototypes
+            more efficiently.
+          </p>
+        </div>
       </div>
-      <br></br>
-      <div>
-        <Button variant="outlined" onClick={() => router.push("/upload/video")}>
-          Upload video
-        </Button>
+      <div className="flex flex-col justify-center items-center text-center font-bold lg:text-5xl text-3xl space-y-2 bg-gray-100">
+        <div className="w-5/6 max-w-6xl pt-10 pb-5">
+          <p className="text-left font-medium lg:text-2xl text-xl text-blue-500 my-4">
+            App
+          </p>
+          <h2 className="text-left">Streamer Client</h2>
+          <p className="text-left lg:text-xl text-lg font-thin my-2">
+            Visualise 3D prototypes in{" "}
+            <p className="inline text-blue-500">augmented reality</p>{" "}
+            replicating the experience of physically collaborating on a
+            prototype in the same room.
+          </p>
+          <button className="cursor-pointer border-[1px] border-blue-600 text-blue-600 px-6 py-3 rounded-md text-sm font-normal hover:bg-blue-50 my-6">
+            Get started now
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col justify-center items-center text-center font-bold lg:text-5xl text-3xl space-y-2">
+        <div className="w-5/6 max-w-6xl pt-10 pb-5">
+          <h2 className="text-left">Latest models</h2>
+          <br></br>
+          <Modeltable table={modelarrayCS} />
+          <br></br>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Home;
+
+{
+  /* <p>Follow the instructions below to generate your 3D assets now.</p>
+          <ol>
+            <li>
+              Take pictures or a video recording of your prototype with your
+              mobile camera.
+            </li>
+            <li>
+              Navigate to AWS RealityStation Asset Studio to upload your images
+              or your recording.
+            </li>
+            <li>Wait for your 3D model to be generated.</li>
+            <li>
+              Open up your phone and load up AWS RealityStation Streamer Client
+              application to visualise your 3D model.
+            </li>
+          </ol>
+          <br></br> */
+}
+
+// <h2>Create your own model</h2>
+//           <div>
+//             <Button
+//               variant="outlined"
+//               onClick={() => router.push("/upload/images")}
+//             >
+//               Upload images
+//             </Button>
+//           </div>
+//           <br></br>
+//           <div>
+//             <Button
+//               variant="outlined"
+//               onClick={() => router.push("/upload/video")}
+//             >
+//               Upload video
+//             </Button>
+//           </div>

@@ -1,4 +1,8 @@
-html,
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* html,
 body {
   margin: 1% 5%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -36,4 +40,4 @@ nav a:active {
 
 nav .logo {
   margin-right: auto;
-}
+} */
