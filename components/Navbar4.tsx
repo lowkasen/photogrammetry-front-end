@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 // import { Transition } from "@headlessui/react";
 // import { Link } from "react-scroll";
 import Image from "next/image";
@@ -7,6 +8,7 @@ import Image from "next/image";
 //  md:items-center sm:items-start md:justify-between sm:justify-start
 
 export function Navbar4() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -21,10 +23,16 @@ export function Navbar4() {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <button className="cursor-pointer hover:bg-gray-50 text-black px-3 py-2 rounded-md text-sm font-medium">
+                  <button
+                    onClick={() => router.push("/")}
+                    className="cursor-pointer hover:bg-gray-50 text-black px-3 py-2 rounded-md text-sm font-medium"
+                  >
                     Home
                   </button>
-                  <button className="cursor-pointer hover:bg-gray-50 text-black px-3 py-2 rounded-md text-sm font-medium">
+                  <button
+                    onClick={() => router.push("/getstarted")}
+                    className="cursor-pointer hover:bg-gray-50 text-black px-3 py-2 rounded-md text-sm font-medium"
+                  >
                     Getting started
                   </button>
                   <button className="cursor-pointer bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-black">
