@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Navbar } from "../../components/Navbar";
+import { Navbar4 } from "../../components/Navbar4";
 import { Messagebox } from "../../components/Messagebox";
 import Amplify, { DataStore, Storage } from "aws-amplify";
 import awsconfig from "../../aws-exports.js";
@@ -118,48 +118,38 @@ const Images: NextPage = () => {
 
   return (
     <div>
-      <Navbar />
-      <h2>Upload images</h2>
-      <form onSubmit={fileSubmitHandler}>
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="flex-start"
-          alignItems="center"
-        >
-          <label htmlFor="contained-button-file">
-            <Input
-              accept="image/*"
-              id="contained-button-file"
-              multiple
-              type="file"
-              onChange={fileChangeHandler}
-              disabled={filesButtonDisabled}
-            />
-            <Button
-              component="span"
-              size="small"
-              disabled={filesButtonDisabled}
-            >
-              Choose files
-            </Button>
-          </label>
-          <label htmlFor="contained-submit-button">
-            <Input
-              id="contained-submit-button"
-              type="submit"
-              disabled={submitButtonDisabled}
-            />
-            <Button
-              variant="contained"
-              component="span"
-              disabled={submitButtonDisabled}
-            >
-              Submit
-            </Button>
-          </label>
-        </Stack>
-      </form>
+      <Navbar4 />
+      <div className="flex flex-col justify-center items-center pt-40 pb-20 text-center font-bold lg:text-8xl text-6xl space-y-2">
+        <div className="w-5/6 max-w-6xl">
+          <h1>Upload images</h1>
+          <form onSubmit={fileSubmitHandler} className="">
+            <label>
+              <span className="sr-only">Choose profile photo</span>
+              <input
+                accept="image/*"
+                type="file"
+                multiple
+                onChange={fileChangeHandler}
+                disabled={filesButtonDisabled}
+                className="
+                  text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0 file:text-sm file:font-semibold
+                file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100
+                "
+              />
+            </label>
+            <div className="flex flex-col items-center">
+              <button
+                type="submit"
+                className="cursor-pointer border-[1px] border-blue-600 text-blue-600 px-6 py-3 rounded-md text-sm font-normal hover:bg-blue-50 my-6"
+                disabled={submitButtonDisabled}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
       <hr></hr>
       <Messagebox message={message} />
     </div>

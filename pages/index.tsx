@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import iPhone from "../public/iPhoneStreamerClient.png";
 import { Navbar4 } from "../components/Navbar4";
 import Amplify from "aws-amplify";
 import awsconfig from "../aws-exports.js";
@@ -61,13 +62,19 @@ const Home: NextPage = () => {
             App
           </p>
           <h2 className="text-left">Streamer Client</h2>
-          <p className="text-left lg:text-xl text-lg font-thin my-2">
+          <p className="text-left lg:text-xl text-lg font-thin mt-2 mb-10">
             Visualise 3D prototypes in{" "}
             <p className="inline text-blue-500">augmented reality</p>{" "}
             replicating the experience of physically collaborating on a
             prototype in the same room.
           </p>
-          <button className="cursor-pointer border-[1px] border-blue-600 text-blue-600 px-6 py-3 rounded-md text-sm font-normal hover:bg-blue-50 my-6">
+          <div>
+            <Image src={iPhone} />
+          </div>
+          <button
+            onClick={() => router.push("/getstarted")}
+            className="cursor-pointer border-[1px] border-blue-600 text-blue-600 px-6 py-3 rounded-md text-sm font-normal hover:bg-blue-50 my-6"
+          >
             Get started now
           </button>
         </div>
@@ -85,42 +92,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-{
-  /* <p>Follow the instructions below to generate your 3D assets now.</p>
-          <ol>
-            <li>
-              Take pictures or a video recording of your prototype with your
-              mobile camera.
-            </li>
-            <li>
-              Navigate to AWS RealityStation Asset Studio to upload your images
-              or your recording.
-            </li>
-            <li>Wait for your 3D model to be generated.</li>
-            <li>
-              Open up your phone and load up AWS RealityStation Streamer Client
-              application to visualise your 3D model.
-            </li>
-          </ol>
-          <br></br> */
-}
-
-// <h2>Create your own model</h2>
-//           <div>
-//             <Button
-//               variant="outlined"
-//               onClick={() => router.push("/upload/images")}
-//             >
-//               Upload images
-//             </Button>
-//           </div>
-//           <br></br>
-//           <div>
-//             <Button
-//               variant="outlined"
-//               onClick={() => router.push("/upload/video")}
-//             >
-//               Upload video
-//             </Button>
-//           </div>
