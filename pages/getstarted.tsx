@@ -15,7 +15,10 @@ const Getstarted: NextPage = () => {
   const getSteps = stepNumbers.map((stepNumber, index) => {
     const stepDescription = stepDescriptions[index];
     return (
-      <div className="flex flex-row items-center md:items-start md:flex-col px-8">
+      <div
+        key={stepNumber}
+        className="flex flex-row items-center md:items-start md:flex-col px-8"
+      >
         <p className="text-left font-bold md:text-5xl text-3xl text-blue-500 my-4">
           {stepNumber}
         </p>

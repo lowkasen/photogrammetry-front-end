@@ -7,13 +7,12 @@ import {
   useState,
 } from "react";
 import { Navbar4 } from "../../components/Navbar4";
+import { Uploadsuccessfuldialog } from "../../components/Uploadsuccesfuldialog";
 import { Messagebox } from "../../components/Messagebox";
 import Amplify, { DataStore, Storage } from "aws-amplify";
 import awsconfig from "../../aws-exports.js";
 Amplify.configure(awsconfig);
 import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import { UUIDModel } from "../../models";
 import JSZip from "jszip";
 
@@ -21,6 +20,7 @@ const Images: NextPage = () => {
   const [message, setMessage] = useState("Choose files to upload");
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [filesButtonDisabled, setfilesButtonDisabled] = useState(false);
+  const [showDialog, setshowDialog] = useState(false);
   let fileTypes: MutableRefObject<Array<string>> = useRef([]);
   let fileArray: MutableRefObject<Array<any>> = useRef([]);
   let fileNames: MutableRefObject<Array<string>> = useRef([]);
@@ -152,6 +152,8 @@ const Images: NextPage = () => {
       </div>
       <hr></hr>
       <Messagebox message={message} />
+      <button onClick={() => setshowDialog(true)}>hi</button>
+      <Uploadsuccessfuldialog showDialog={showDialog} />
     </div>
   );
 };

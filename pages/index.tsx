@@ -69,7 +69,7 @@ const Home: NextPage = () => {
             prototype in the same room.
           </p>
           <div>
-            <Image src={iPhone} />
+            <Image src={iPhone} alt="Streamer client screenshot" />
           </div>
           <button
             onClick={() => router.push("/getstarted")}
