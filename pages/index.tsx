@@ -51,9 +51,9 @@ const Home: NextPage = () => {
           <h1>Asset Studio</h1>
           <p className="lg:text-3xl text-xl font-thin mx-8 lg:my-10 my-5">
             Automatically generate{" "}
-            <p className="inline text-blue-500">detailed 3D models</p> from
-            videos and photos, enabling you to share highly detailed prototypes
-            more efficiently.
+            <span className="inline text-blue-500">detailed 3D models</span>{" "}
+            from videos and photos, enabling you to share highly detailed
+            prototypes more efficiently.
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
           <h2 className="text-left">Streamer Client</h2>
           <p className="text-left lg:text-xl text-lg font-thin mt-2 mb-10">
             Visualise 3D prototypes in{" "}
-            <p className="inline text-blue-500">augmented reality</p>{" "}
+            <span className="inline text-blue-500">augmented reality</span>{" "}
             replicating the experience of physically collaborating on a
             prototype in the same room.
           </p>

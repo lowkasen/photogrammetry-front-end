@@ -56,7 +56,10 @@ const Images: NextPage = () => {
       }
       //const response1 = await Promise.all(promise.current);
       const zipblob = await zip.generateAsync({ type: "blob" });
-      const response = await Storage.put(UUID + "_compressed.zip", zipblob);
+      const response = await Storage.put(
+        UUID.current + "_compressed.zip",
+        zipblob
+      );
 
       // Save to Amplify DataStore
       await DataStore.save(
@@ -132,10 +135,18 @@ const Images: NextPage = () => {
       <div className="flex flex-col justify-center items-center pt-40 pb-20 text-center font-bold lg:text-8xl text-6xl space-y-2">
         <div className="w-5/6 max-w-6xl">
           <h1>Upload images</h1>
-          <form onSubmit={fileSubmitHandler} className="">
+          <form onSubmit={fileSubmitHandler}>
+            <label className="flex flex-col items-center mt-14 mb-5 lg:mt-24 lg:mb-0 text-sm font-normal ">
+              Email to
+              <input
+                type="email"
+                required
+                className="border-b-[1px] text-base font-thin w-56 focus:outline-none text-center mt-2"
+                placeholder="email@realitystation.com"
+              ></input>
+            </label>
             <label>
               <span className="sr-only">Choose images</span>
-              <br className="lg:hidden"></br>
               <input
                 accept="image/*"
                 type="file"

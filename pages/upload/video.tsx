@@ -12,9 +12,7 @@ import { Uploadsuccessfuldialog } from "../../components/Uploadsuccesfuldialog";
 import Amplify, { DataStore, Storage } from "aws-amplify";
 import awsconfig from "../../aws-exports.js";
 Amplify.configure(awsconfig);
-import { styled } from "@mui/material/styles";
 import { UUIDModel } from "../../models";
-import JSZip from "jszip";
 
 const Video: NextPage = () => {
   const [message, setMessage] = useState("Choose files to upload");
@@ -141,9 +139,17 @@ const Video: NextPage = () => {
         <div className="w-5/6 max-w-6xl">
           <h1>Upload video</h1>
           <form onSubmit={fileSubmitHandler} className="">
+            <label className="flex flex-col items-center mt-14 mb-5 lg:mt-24 lg:mb-0 text-sm font-normal ">
+              Email to
+              <input
+                type="email"
+                required
+                className="border-b-[1px] text-base font-thin w-56 focus:outline-none text-center mt-2"
+                placeholder="email@realitystation.com"
+              ></input>
+            </label>
             <label>
               <span className="sr-only">Choose video</span>
-              <br className="lg:hidden"></br>
               <input
                 accept="video/*"
                 type="file"
