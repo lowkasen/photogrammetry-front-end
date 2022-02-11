@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { Navbar4 } from "../components/Navbar4";
+import { Navbar5 } from "../components/Navbar5";
 
 const Getstarted: NextPage = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ const Getstarted: NextPage = () => {
 
   return (
     <div>
-      <Navbar4 />
+      <Navbar5 />
       <div className="flex flex-col justify-center items-center pt-40 pb-20 text-center font-bold lg:text-8xl text-6xl space-y-2">
         <div className="w-5/6 max-w-6xl">
           <h1>Getting started</h1>

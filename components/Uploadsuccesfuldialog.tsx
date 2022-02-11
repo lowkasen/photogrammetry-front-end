@@ -1,36 +1,22 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 
-export function Uploadsuccessfuldialog(props: { showDialog: boolean }) {
-  let [isOpen, setIsOpen] = useState(props.showDialog);
-  console.log(isOpen);
-  console.log(props.showDialog);
-
-  if (props.showDialog === true) {
-    openModal();
-  }
-
+export function Uploadsuccessfuldialog(props: {
+  showDialog: boolean;
+  setshowDialog: Dispatch<SetStateAction<boolean>>;
+  uuid: string;
+}) {
   function closeModal() {
-    setIsOpen(false);
+    props.setshowDialog(false);
   }
 
   function openModal() {
-    setIsOpen(true);
+    props.setshowDialog(true);
   }
 
   return (
     <>
-      {/* <div className="fixed inset-0 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={openModal}
-          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        >
-          Open dialog
-        </button>
-      </div> */}
-
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={props.showDialog} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -70,12 +56,17 @@ export function Uploadsuccessfuldialog(props: { showDialog: boolean }) {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Payment successful
+                  Upload successful
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We&apos;ve
-                    sent you an email with all of the details of your order.
+                    Your files have been successfully uploaded. We will send you
+                    an email with all of the details to stream your 3D prototype
+                    once it has been generated.
+                  </p>
+                  <br></br>
+                  <p className="text-sm text-gray-500">
+                    Your UUID is: {props.uuid}
                   </p>
                 </div>
 

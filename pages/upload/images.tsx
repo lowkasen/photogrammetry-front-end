@@ -6,9 +6,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Navbar4 } from "../../components/Navbar4";
-import { Uploadsuccessfuldialog } from "../../components/Uploadsuccesfuldialog";
 import { Messagebox } from "../../components/Messagebox";
+import { Navbar5 } from "../../components/Navbar5";
+import { Uploadsuccessfuldialog } from "../../components/Uploadsuccesfuldialog";
 import Amplify, { DataStore, Storage } from "aws-amplify";
 import awsconfig from "../../aws-exports.js";
 Amplify.configure(awsconfig);
@@ -21,6 +21,7 @@ const Images: NextPage = () => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [filesButtonDisabled, setfilesButtonDisabled] = useState(false);
   const [showDialog, setshowDialog] = useState(false);
+  let UUID: MutableRefObject<string> = useRef("");
   let fileTypes: MutableRefObject<Array<string>> = useRef([]);
   let fileArray: MutableRefObject<Array<any>> = useRef([]);
   let fileNames: MutableRefObject<Array<string>> = useRef([]);
@@ -41,8 +42,9 @@ const Images: NextPage = () => {
       const uuid: { [key: string]: any } = await (
         await fetch("/api/getuuid")
       ).json();
-      const UUID: string = uuid.uuid;
 
+      UUID.current = uuid.uuid;
+      console.log(UUID.current);
       setMessage("Uploading");
 
       // Amplify Storage methods
@@ -60,11 +62,13 @@ const Images: NextPage = () => {
       await DataStore.save(
         new UUIDModel({
           DateTime: new Date().toISOString(),
-          UUID: UUID,
+          UUID: UUID.current,
         })
       );
 
-      setMessage("Upload successful, uuid: " + UUID);
+      console.log("Done");
+      setshowDialog(true);
+      setMessage("Upload successful, UUID: " + UUID.current);
     } catch (err) {
       console.error(err);
       setMessage("Upload failed");
@@ -79,14 +83,20 @@ const Images: NextPage = () => {
     if (!event.target.files) {
       console.log("target files is null.");
       setSubmitButtonDisabled(true);
+      setMessage("No files selected");
       return;
     }
 
     const numberOfFiles = event.target.files.length;
-    if (numberOfFiles > 50 || numberOfFiles < 1) {
+    if (numberOfFiles > 50) {
       console.log("number of target files is: " + String(numberOfFiles));
       console.log("target files is none or more than 50");
       setSubmitButtonDisabled(true);
+      setMessage("You have reached file upload limit of 50. Please try again");
+      return;
+    } else if (numberOfFiles < 1) {
+      setSubmitButtonDisabled(true);
+      setMessage("No files selected");
       return;
     }
 
@@ -118,13 +128,14 @@ const Images: NextPage = () => {
 
   return (
     <div>
-      <Navbar4 />
+      <Navbar5 />
       <div className="flex flex-col justify-center items-center pt-40 pb-20 text-center font-bold lg:text-8xl text-6xl space-y-2">
         <div className="w-5/6 max-w-6xl">
           <h1>Upload images</h1>
           <form onSubmit={fileSubmitHandler} className="">
             <label>
-              <span className="sr-only">Choose profile photo</span>
+              <span className="sr-only">Choose images</span>
+              <br className="lg:hidden"></br>
               <input
                 accept="image/*"
                 type="file"
@@ -132,28 +143,37 @@ const Images: NextPage = () => {
                 onChange={fileChangeHandler}
                 disabled={filesButtonDisabled}
                 className="
-                  text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0 file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100
+                  text-sm text-gray-300 file:mr-4 file:py-2 file:px-4
+                  file:rounded-md file:border-[1px] file:border-blue-600 file:text-sm file:font-normal
+                  file:bg-white file:text-blue-600 hover:file:bg-blue-100 hover:file:cursor-pointer hover:cursor-pointer
+                  rounded-md border-2 border-slate-200 py-5 px-2 border-dashed
+                  disabled:opacity-40 disabled:hover:cursor-not-allowed
+                  hover:file:disabled:bg-white hover:file:disabled:cursor-not-allowed
+                  file:disabled:text-gray-200 file:disabled:border-gray-200
                 "
               />
             </label>
             <div className="flex flex-col items-center">
               <button
                 type="submit"
-                className="cursor-pointer border-[1px] border-blue-600 text-blue-600 px-6 py-3 rounded-md text-sm font-normal hover:bg-blue-50 my-6"
+                className="
+                  cursor-pointer text-white bg-blue-600 px-6 py-3 rounded-md text-sm font-normal hover:bg-black my-6
+                  disabled:bg-gray-100 disabled:text-gray-200 disabled:cursor-not-allowed
+                "
                 disabled={submitButtonDisabled}
               >
                 Submit
               </button>
             </div>
           </form>
+          <Messagebox message={message} />
         </div>
       </div>
-      <hr></hr>
-      <Messagebox message={message} />
-      <button onClick={() => setshowDialog(true)}>hi</button>
-      <Uploadsuccessfuldialog showDialog={showDialog} />
+      <Uploadsuccessfuldialog
+        showDialog={showDialog}
+        setshowDialog={setshowDialog}
+        uuid={UUID.current}
+      />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import iPhone from "../public/iPhoneStreamerClient.png";
-import { Navbar4 } from "../components/Navbar4";
+import { Navbar5 } from "../components/Navbar5";
 import Amplify from "aws-amplify";
 import awsconfig from "../aws-exports.js";
 import { Modeltable } from "../components/Modeltable";
@@ -12,6 +12,7 @@ Amplify.configure(awsconfig);
 import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { UUIDModel } from "../models";
 import { useEffect, useState } from "react";
+import { Dropdownbutton } from "../components/Dropdownbutton";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Navbar4 />
+      <Navbar5 />
       <div className="flex flex-col justify-center items-center pt-40 pb-20 text-center font-bold lg:text-8xl text-6xl space-y-2">
         <div className="w-5/6 max-w-6xl">
           <h1>Asset Studio</h1>

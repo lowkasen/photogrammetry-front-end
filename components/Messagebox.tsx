@@ -1,8 +1,3 @@
 export function Messagebox(props: { message: string }) {
-  return (
-    <div>
-      <h3>Messagebox</h3>
-      <p id="message">{props.message}</p>
-    </div>
-  );
+  return <p className="text-sm font-normal text-gray-300">{props.message}</p>;
 }
