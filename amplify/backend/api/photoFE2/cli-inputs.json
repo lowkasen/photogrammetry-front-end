@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "photoFE2",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-634bb430-07ab-4511-b20b-e3cc76b6c3b2/amplify/backend/api/photoFE2/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-68831ae6-a142-488c-b670-b7838e06c38b/amplify/backend/api/photoFE2/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",

@@ -21,6 +21,7 @@ const Images: NextPage = () => {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
   const [filesButtonDisabled, setfilesButtonDisabled] = useState(false);
   const [showDialog, setshowDialog] = useState(false);
+  const [email, setEmail] = useState("");
   let UUID: MutableRefObject<string> = useRef("");
   let fileTypes: MutableRefObject<Array<string>> = useRef([]);
   let fileArray: MutableRefObject<Array<any>> = useRef([]);
@@ -66,6 +67,7 @@ const Images: NextPage = () => {
         new UUIDModel({
           DateTime: new Date().toISOString(),
           UUID: UUID.current,
+          Email: email,
         })
       );
 
@@ -129,6 +131,11 @@ const Images: NextPage = () => {
     }
   };
 
+  // function that sets email
+  function emailChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+    setEmail(event.target.value);
+  }
+
   return (
     <div>
       <Navbar5 />
@@ -141,6 +148,7 @@ const Images: NextPage = () => {
               <input
                 type="email"
                 required
+                onChange={emailChangeHandler}
                 className="border-b-[1px] text-base font-thin w-56 focus:outline-none text-center mt-2"
                 placeholder="email@realitystation.com"
               ></input>

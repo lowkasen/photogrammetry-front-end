@@ -12,6 +12,7 @@ export declare class UUIDModel {
   readonly id: string;
   readonly DateTime: string;
   readonly UUID: string;
+  readonly Email?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<UUIDModel, UUIDModelMetaData>);
